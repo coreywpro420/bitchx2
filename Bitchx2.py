@@ -7,16 +7,17 @@
 # WARNING: This program is for testing purposes, please read the sites TOS and Robots.txt file
 #          You will want to use a Proxy or VPN so you do not get your IP address blocked
 
-#Import Libraries from Classes
-from selenium import webdriver
+#Libraries not used 
+#from selenium import webdriver
+#from selenium.webdriver.chrome.options import Options
+#from selenium.webdriver.chrome.service import Service
+#from webdriver_manager.chrome import ChromeDriverManager
+
+#Import Working Libraries From Classes
 from bs4 import BeautifulSoup
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
 from dateutil.parser import parse
 from dateutil.tz import tzlocal 
 from urllib.request import urlopen
-from email.message import Message
 
 #Import Libraries
 import pandas as pd
@@ -38,15 +39,7 @@ import typing
 import json
 import json.decoder
 
-#Set Time Zones
-myTimeZone = pytz.timezone('US/Pacific')
-eastern = pytz.timezone('US/Eastern')
-gmt = pytz.timezone('GMT')
-
-
-
-url = "https://pinnacle-odds.p.rapidapi.com/kit/v1/special-markets/id=9" #Call Pinnacle API
-
+url = "https://pinnacle-odds.p.rapidapi.com/kit/v1/special-markets/" #Call Pinnacle API
 
 querystring = {"sport_id":"9","is_have_odds":"true"} #Query Prop Bets
 
@@ -56,16 +49,11 @@ headers = {
 	"X-RapidAPI-Host": "pinnacle-odds.p.rapidapi.com"
 }
 
-#Call the URL we requested and append it to the response variable. 
-response = requests.request("GET", url, headers=headers, params=querystring)
+response = requests.request("GET", url, headers=headers, params=querystring) #Call the URL we requested and append it to the response variable. 
 
-
-#Print the output from the response variable.(TEST WILL BE REMOVED)
-
+#Convert JSON file to CSV for database upload. Frame data for insertion.
 df = pd.read_json (r'data.json')
 df.to_csv (r'data1.csv', index = None)
-
- 
 df = pd.read_csv('data1.csv')
 
 
